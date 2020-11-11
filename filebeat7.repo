@@ -1,0 +1,8 @@
+[Filebeat_7]
+name = Filebeat_7
+baseurl = https://uatlinuxrepos.kasikornbank.com/MDW/Filebeat
+enabled = 1
+gpgcheck = 0
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+sslverify = 1
+sslcacert = /etc/pki/tls/certs/KASIKORNBANK_Intermediate_SHA256.cer

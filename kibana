@@ -1,0 +1,5 @@
+elasticsearch.hosts: ["http://localhost:9200"]
+elasticsearch.username: "elastic"
+elasticsearch.password: "P@ssw0rd"
+xpack.monitoring.enabled: true
+xpack.monitoring.kibana.collection.enabled: true
