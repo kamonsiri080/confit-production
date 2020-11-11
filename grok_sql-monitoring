@@ -1,0 +1,37 @@
+PUT _ingest/pipeline/sql-monitoring 
+{
+    "processors" : [
+      {
+        "grok" : {
+          "field" : "message",
+          "patterns" : [
+            "%{YEAR:year}-%{MONTHNUM2:month}-%{MONTHDAY:day} %{HOUR:hour}:%{MINUTE:min}:%{SECOND:sec},%{GREEDYDATA:Lastwaittype},%{NUMBER:SPID:int},%{NUMBER:Number_of_Block:int},%{NUMBER:Run_Time:int},%{GREEDYDATA:Source},%{GREEDYDATA:Login_Name},%{GREEDYMULTILINE:SQL}"
+          ],
+          "pattern_definitions" : {
+            "GREEDYMULTILINE" : """(.|
+)*"""
+          }
+        },
+        "set" : {
+          "field" : "datatime",
+          "value" : "{{day}}-{{month}}-{{year}} {{hour}}:{{min}}:00"
+        },
+        "date" : {
+          "field" : "datatime",
+          "target_field" : "@timestamp",
+          "formats" : [
+            "dd-MM-yyyy HH:mm:ss"
+          ],
+          "timezone" : "Asia/Bangkok"
+        }
+      }
+    ],
+    "on_failure" : [
+      {
+        "set" : {
+          "field" : "error.message",
+          "value" : "Pipeline sql-monitoring process failed."
+        }
+      }
+    ]
+}

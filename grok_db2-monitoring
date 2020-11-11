@@ -1,0 +1,22 @@
+PUT _ingest/pipeline/db2-monitoring
+{ 
+	"processors" : [
+      {
+        "grok" : {
+          "field" : "message",
+          "patterns" : [
+            """%{GREEDYDATA:TIME},%{NUMBER:WAIT_TIME:int},"%{GREEDYDATA:PERCENTAGE_WAIT_TIME:float}%%{GREEDYDATA}"""
+          ]
+        }
+      }
+    ],
+    "on_failure" : [
+      {
+        "set" : {
+          "field" : "error.message",
+          "value" : "Pipeline db2-monitoring process failed."
+        }
+      }
+    ]
+ 
+}
